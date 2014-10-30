@@ -49,8 +49,6 @@ by setting the `zipfile_name` parameter.
 
 class ZipView(BaseZipView):
     zipfile_name = 'toto.zip'
-
-    …
 ```
 
 Testing
