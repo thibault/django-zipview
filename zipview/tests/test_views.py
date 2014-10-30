@@ -3,6 +3,8 @@
 from __future__ import unicode_literals
 
 import os
+import zipfile
+from io import BytesIO
 
 from django.test import TestCase
 from django.core.files import File
@@ -18,10 +20,10 @@ class ZipView(BaseZipView):
 
     def get_files(self):
         if self._files is None:
-            basename = os.path.basename(__file__)
+            dirname = os.path.dirname(__file__)
             self._files = [
-                File(open(os.path.join(basename, 'test_file.txt'))),
-                File(open(os.path.join(basename, 'test_file.odt'))),
+                File(open(os.path.join(dirname, 'test_file.txt'))),
+                File(open(os.path.join(dirname, 'test_file.odt'))),
             ]
         return self._files
 
@@ -39,3 +41,15 @@ class ZipViewTests(TestCase):
         response = self.view.get(self.request)
         self.assertEqual(response['Content-Type'], 'application/zip')
         self.assertEqual(response['Content-Disposition'], 'attachment; filename=download.zip')
+
+    def test_response_content_length(self):
+        response = self.view.get(self.request)
+        self.assertEqual(response['Content-Length'], '19795')
+
+    def test_valid_zipfile(self):
+        response = self.view.get(self.request)
+        content = BytesIO(response.content)
+        self.assertTrue(zipfile.is_zipfile(content))
+
+        zip_file = zipfile.ZipFile(content)
+        self.assertEqual(zip_file.namelist(), ['test_file.txt', 'test_file.odt'])
