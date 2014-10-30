@@ -49,3 +49,10 @@ To launch tests:
 
     pip install tox
     tox
+
+
+Author
+------
+
+Crafted with love by [Thibault Jouannic](http://www.miximum.fr). You can
+contact him for [Python / Django freelancing gigs](http://www.miximum.fr/a-propos/).
