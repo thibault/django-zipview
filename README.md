@@ -39,6 +39,20 @@ class CommentsArchiveView(BaseZipView):
         return [review.comments.file for review in reviews if review.comments.name]
 ```
 
+View configuration
+------------------
+
+By default, the downloaded file is named `download.zip` you can set a custom name
+by setting the `zipfile_name` parameter.
+
+```python
+
+class ZipView(BaseZipView):
+    zipfile_name = 'toto.zip'
+
+    …
+```
+
 Testing
 -------
 
