@@ -2,14 +2,13 @@
 
 from __future__ import unicode_literals
 
-import os
 import zipfile
-from io import BytesIO
 
 from django.views.generic import View
 from django.http import HttpResponse
 from django.core.files.base import ContentFile
 from django.utils.six import b
+
 
 class BaseZipView(View):
     """A base view to zip and stream several files."""
