@@ -8,8 +8,8 @@ from io import BytesIO
 
 from django.views.generic import View
 from django.http import HttpResponse
-from django.core.servers.basehttp import FileWrapper
-
+from django.core.files.base import ContentFile
+from django.utils.six import b
 
 class BaseZipView(View):
     """A base view to zip and stream several files."""
@@ -22,19 +22,17 @@ class BaseZipView(View):
         raise NotImplementedError()
 
     def get(self, request, *args, **kwargs):
-        temp_file = BytesIO()
+        temp_file = ContentFile(b(""), name=self.zipfile_name)
         with zipfile.ZipFile(temp_file, mode='w', compression=zipfile.ZIP_DEFLATED) as zip_file:
             files = self.get_files()
             for file_ in files:
                 path = file_.name
-                name = os.path.basename(path)
-                zip_file.write(path, name)
+                zip_file.writestr(path, file_.read())
 
         file_size = temp_file.tell()
         temp_file.seek(0)
-        wrapper = FileWrapper(temp_file)
 
-        response = HttpResponse(wrapper, content_type='application/zip')
+        response = HttpResponse(temp_file, content_type='application/zip')
         response['Content-Disposition'] = 'attachment; filename=%s' % self.zipfile_name
         response['Content-Length'] = file_size
         return response
