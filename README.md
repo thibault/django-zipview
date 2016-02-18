@@ -1,6 +1,8 @@
 Django ZipView
 ==============
 
+[![Build Status](https://travis-ci.org/thibault/django-zipview.svg?branch=master)](https://travis-ci.org/thibault/django-zipview)
+
 A base view to zip and stream several files.
 
 Installation
@@ -24,19 +26,18 @@ Example:
 ```python
 from zipview.views import BaseZipView
 
-from reviews import Review
+from emails import Email
 
 
-class CommentsArchiveView(BaseZipView):
+class AttachmentsArchiveView(BaseZipView):
     """Download at once all comments for a review."""
 
     def get_files(self):
-        document_key = self.kwargs.get('document_key')
-        reviews = Review.objects \
-            .filter(document__document_key=document_key) \
-            .exclude(comments__isnull=True)
+        emails = Email.objects \
+            .filter(user=self.request.user) \
+            .exclude(attachment__isnull=True)
 
-        return [review.comments.file for review in reviews if review.comments.name]
+        return [email.attachment.file for email in emails if email.attachment.name]
 ```
 
 View configuration
@@ -51,15 +52,20 @@ class ZipView(BaseZipView):
     zipfile_name = 'toto.zip'
 ```
 
+Compatibility
+-------------
+
+Current supported django versions are 1.8 & 1.9.
+
 Testing
 -------
 
-Django ZipView uses [tox, the testing automation tool](https://tox.readthedocs.org/en/latest/),
-to run tests.
+Django ZipView uses [tox, the testing automation
+tool](https://tox.readthedocs.org/en/latest/), to run tests.
 
 To launch tests:
 
-    pip install tox
+    pip install -r requiments/test.txt
     tox
 
 
@@ -67,4 +73,5 @@ Author
 ------
 
 Crafted with love by [Thibault Jouannic](http://www.miximum.fr). You can
-contact him for [Python / Django freelancing gigs](http://www.miximum.fr/a-propos/).
+contact him for [Python / Django freelancing
+gigs](http://www.miximum.fr/a-propos/).
