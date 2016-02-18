@@ -1,4 +1,6 @@
 -r base.txt
 
+tox
+coveralls
 flake8
 coverage
