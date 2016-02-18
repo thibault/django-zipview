@@ -21,7 +21,6 @@ class BaseZipView(View):
         raise NotImplementedError()
 
     def get_archive_name(self, request):
-        import pdb; pdb.set_trace()
         return self.zipfile_name
 
     def get(self, request, *args, **kwargs):
