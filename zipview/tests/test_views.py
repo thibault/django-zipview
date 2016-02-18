@@ -61,3 +61,8 @@ class ZipViewTests(TestCase):
         self.assertEqual(
             zip_file.namelist(),
             ['files/test_file.txt', 'files/test_file.odt'])
+
+    def test_custom_archive_name(self):
+        self.view.get_archive_name = lambda: 'toto.zip'
+        response = self.view.get(self.request)
+        self.assertEqual(response['Content-Disposition'], 'attachment; filename=toto.zip')

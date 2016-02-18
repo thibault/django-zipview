@@ -20,6 +20,10 @@ class BaseZipView(View):
         """Must return a list of django's `File` objects."""
         raise NotImplementedError()
 
+    def get_archive_name(self, request):
+        import pdb; pdb.set_trace()
+        return self.zipfile_name
+
     def get(self, request, *args, **kwargs):
         temp_file = ContentFile(b(""), name=self.zipfile_name)
         with zipfile.ZipFile(temp_file, mode='w', compression=zipfile.ZIP_DEFLATED) as zip_file:
@@ -32,6 +36,6 @@ class BaseZipView(View):
         temp_file.seek(0)
 
         response = HttpResponse(temp_file, content_type='application/zip')
-        response['Content-Disposition'] = 'attachment; filename=%s' % self.zipfile_name
+        response['Content-Disposition'] = 'attachment; filename=%s' % self.get_archive_name(request)
         response['Content-Length'] = file_size
         return response

@@ -52,6 +52,17 @@ class ZipView(BaseZipView):
     zipfile_name = 'toto.zip'
 ```
 
+In case you need to dynamically set the filename, you can override the
+`get_archive_name` method. It takes the request as a parameter.
+
+```python
+
+def get_archive_name(self, request):
+    import datetime
+    today = datetime.date.today()
+    return 'archive_{:%Y%m%d}.zip'.format(today)
+```
+
 Compatibility
 -------------
 
