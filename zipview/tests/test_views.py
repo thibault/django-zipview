@@ -22,8 +22,14 @@ class ZipView(BaseZipView):
         if self._files is None:
             dirname = os.path.dirname(__file__)
             self._files = [
-                File(open(os.path.join(dirname, 'test_file.txt'))),
-                File(open(os.path.join(dirname, 'test_file.odt'))),
+                File(
+                    open(os.path.join(dirname, 'files', 'test_file.txt')),
+                    name='files/test_file.txt'
+                ),
+                File(
+                    open(os.path.join(dirname, 'files', 'test_file.odt')),
+                    name='files/test_file.odt'
+                ),
             ]
         return self._files
 
@@ -44,7 +50,7 @@ class ZipViewTests(TestCase):
 
     def test_response_content_length(self):
         response = self.view.get(self.request)
-        self.assertEqual(response['Content-Length'], '19795')
+        self.assertEqual(response['Content-Length'], '19819')
 
     def test_valid_zipfile(self):
         response = self.view.get(self.request)
@@ -52,4 +58,6 @@ class ZipViewTests(TestCase):
         self.assertTrue(zipfile.is_zipfile(content))
 
         zip_file = zipfile.ZipFile(content)
-        self.assertEqual(zip_file.namelist(), ['test_file.txt', 'test_file.odt'])
+        self.assertEqual(
+            zip_file.namelist(),
+            ['files/test_file.txt', 'files/test_file.odt'])
