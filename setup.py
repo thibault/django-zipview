@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import os
 from setuptools import setup
 
@@ -16,7 +13,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 setup(
     name='django-zipview',
     version=__version__,
-    packages=[b'zipview'],
+    packages=['zipview'],
     include_package_data=True,
     license='MIT License',  # example license
     description='A simple Django base view to zip and stream several files.',
