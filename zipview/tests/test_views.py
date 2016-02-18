@@ -23,12 +23,12 @@ class ZipView(BaseZipView):
             dirname = os.path.dirname(__file__)
             self._files = [
                 File(
-                    open(os.path.join(dirname, 'files', 'test_file.txt')),
-                    name='files/test_file.txt'
+                    open(os.path.join(dirname, 'files', 'test_file.txt'), 'rb'),
+                    name='files/test_file.txt',
                 ),
                 File(
-                    open(os.path.join(dirname, 'files', 'test_file.odt')),
-                    name='files/test_file.odt'
+                    open(os.path.join(dirname, 'files', 'test_file.odt'), 'rb'),
+                    name='files/test_file.odt',
                 ),
             ]
         return self._files
