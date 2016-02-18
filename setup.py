@@ -1,5 +1,10 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import os
 from setuptools import setup
+
+from zipview import __version__
 
 
 with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
@@ -10,8 +15,8 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-zipview',
-    version='1.0.0',
-    packages=['zipview'],
+    version=__version__,
+    packages=[b'zipview'],
     include_package_data=True,
     license='MIT License',  # example license
     description='A simple Django base view to zip and stream several files.',
