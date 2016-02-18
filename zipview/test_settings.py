@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+import os
+
+
 INSTALLED_APPS = (
     'zipview',
 )
@@ -16,3 +22,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 SECRET_KEY = "gloubiboulga secret key"
+MEDIA_ROOT = os.path.join(
+    os.path.dirname(__file__),
+    'tests'
+)
