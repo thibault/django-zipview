@@ -66,7 +66,7 @@ def get_archive_name(self, request):
 Compatibility
 -------------
 
-Current supported django versions are 1.8 & 1.9.
+Current supported django versions are 2.2, 3.1 and 3.2.
 
 Testing
 -------
