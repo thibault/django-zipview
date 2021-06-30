@@ -1,13 +1,8 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import unicode_literals
-
 import zipfile
 
 from django.views.generic import View
 from django.http import HttpResponse
 from django.core.files.base import ContentFile
-from django.utils.six import b
 
 
 class BaseZipView(View):
@@ -24,7 +19,7 @@ class BaseZipView(View):
         return self.zipfile_name
 
     def get(self, request, *args, **kwargs):
-        temp_file = ContentFile(b(""), name=self.zipfile_name)
+        temp_file = ContentFile(b"", name=self.zipfile_name)
         with zipfile.ZipFile(temp_file, mode='w', compression=zipfile.ZIP_DEFLATED) as zip_file:
             files = self.get_files()
             for file_ in files:
