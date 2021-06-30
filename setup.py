@@ -18,6 +18,7 @@ setup(
     license='MIT License',  # example license
     description='A simple Django base view to zip and stream several files.',
     long_description=README,
+    long_description_content_type='text/markdown',
     url='https://github.com/thibault/django-zipview/',
     author='Thibault Jouannic',
     author_email='thibault@miximum.fr',
