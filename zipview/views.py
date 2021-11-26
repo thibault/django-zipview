@@ -18,7 +18,7 @@ class BaseZipView(View):
     def get_archive_name(self, request):
         return self.zipfile_name
 
-    def get(self, request, *args, **kwargs):
+    def build_zip(self, request):
         temp_file = ContentFile(b"", name=self.zipfile_name)
         with zipfile.ZipFile(temp_file, mode='w', compression=zipfile.ZIP_DEFLATED) as zip_file:
             files = self.get_files()
@@ -26,8 +26,12 @@ class BaseZipView(View):
                 path = file_.name
                 zip_file.writestr(path, file_.read())
 
-        file_size = temp_file.tell()
         temp_file.seek(0)
+        return temp_file
+
+    def get(self, request, *args, **kwargs):
+        temp_file = self.build_zip(request)
+        file_size = temp_file.tell()
 
         response = HttpResponse(temp_file, content_type='application/zip')
         response['Content-Disposition'] = 'attachment; filename=%s' % self.get_archive_name(request)
